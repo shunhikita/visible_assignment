@@ -25,6 +25,8 @@ Or install it yourself as:
 
 ## Configuration
 
+
+By default, the instance variable of the controller is not taken over by View.
 When set to true, the instance variable of the controller is also copied to the View instance variable.
 
 ```rb
