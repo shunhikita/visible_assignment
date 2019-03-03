@@ -1,8 +1,10 @@
 # VisibleAssignment
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/visible_assignment`. To experiment with that code, run `bin/console` for an interactive prompt.
+Change the way data is passed from ActionController to ActionView.
 
-TODO: Delete this and the text above, and describe your gem
+Instead of copying all the instance variables of ActionController, VisibleAssignment copy only the explicit data to the instance variable of ActionView so that it can be used in the View.
+
+Resolve the poor visibility of what is in the instance variables used by View. For example, an instance variable defined by before_action or an instance variable defined by an included module ...etc
 
 ## Installation
 
@@ -20,9 +22,76 @@ Or install it yourself as:
 
     $ gem install visible_assignment
 
+
+## Configuration
+
+When set to true, the instance variable of the controller is also copied to the View instance variable.
+
+```rb
+VisibleAssignment.configure do |config|
+  config.enable_instance_variables = true # default false.
+end
+```
+
 ## Usage
 
-TODO: Write usage instructions here
+When you want to pass an instance variable to View.
+
+```rb
+class BooksController < ApplicationController
+  def index
+    self.view_assign_variables = {
+      books: available_books,
+    } 
+  end
+  
+  def show
+    self.view_assign_variables = {
+      book: current_book,
+    }
+  end
+  
+  private
+    
+    def available_books
+      Book.available.page(params[:page])
+    end
+    
+    def current_book
+      available_books.find(params[:id])
+    end
+end
+```
+
+```books/index.erb
+<% @books.each do |book| %>
+  <p><%= book.title %></p>
+<% end %>
+```
+
+```books/show.erb
+<p><%= @book.title %></p>
+```
+
+When you want to pass an instance variable that is used for all actions to View
+
+```rb
+class ApplicationController < ActionController::Base
+  before_action :set_global_view_assign_variables
+  
+  def set_global_view_assign_variables
+    self.global_view_assign_variables = {
+      current_user: current_user,
+    }
+  end
+  
+  private
+  
+    def current_user
+      # ...
+    end
+end
+```
 
 ## Development
 
