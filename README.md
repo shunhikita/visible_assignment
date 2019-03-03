@@ -56,7 +56,7 @@ class BooksController < ApplicationController
   private
     
     def available_books
-      Book.available.page(params[:page])
+      Book.available
     end
     
     def current_book
