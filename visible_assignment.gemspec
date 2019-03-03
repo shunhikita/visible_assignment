@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = VisibleAssignment::VERSION
   spec.authors       = ["h1kita"]
 
-  spec.summary       = %q{}
-  spec.description   = %q{}
+  spec.summary       = "change the way data is passed from ActionController to ActionView"
+  spec.description   = "change the way data is passed from ActionController to ActionView"
   spec.license       = "MIT"
 
   # Specify which files should be added to the gem when it is released.
