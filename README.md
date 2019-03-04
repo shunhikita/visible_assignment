@@ -95,6 +95,29 @@ class ApplicationController < ActionController::Base
 end
 ```
 
+:no_good: bad usage
+
+Instance variables are not copied to View when enable_instance_variables is false.
+
+```rb
+class BooksController < ApplicationController
+  before_action :load_book, only: %w(show)
+  
+  def show
+  end
+  
+  private
+    
+    def load_book
+      @book = Book.find(params[:id])
+    end
+end
+```
+
+```books/show.erb
+<p><%= @book.title %></p>
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
